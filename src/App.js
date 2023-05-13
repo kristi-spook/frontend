@@ -1,23 +1,31 @@
-import logo from './logo.svg';
-import './App.css';
+import "./App.css";
+import React, { useEffect } from "react";
+import Registry from "./components/layouts/Registry/Registry";
+import SignIn from "./components/layouts/SignIn/SignIn";
+import { Routes, Route, useNavigate } from "react-router-dom";
 
 function App() {
+  const navigate = useNavigate();
+
+  function checkIfLoggedIn() {
+    const loggedIn = localStorage.getItem("isLoggedIn");
+    if (loggedIn) {
+      navigate("/registry");
+    } else {
+      navigate("/login");
+    }
+  }
+
+  useEffect(() => {
+    checkIfLoggedIn();
+  }, []);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <Routes>
+        <Route path="/login" element={<SignIn />} />
+        <Route path="/registry" element={<Registry />} />
+      </Routes>
     </div>
   );
 }
